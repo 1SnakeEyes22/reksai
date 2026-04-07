@@ -1,238 +1,1536 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reks AI — Your Business, On Autopilot</title>
-  <meta name="description" content="Reks AI builds custom AI assistants for small businesses — connected to WhatsApp or Telegram. Done for you, 24/7.">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #000; color: #fff; }
-    
-    /* NAV */
-    nav { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a1a1a; }
-    .logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-    .logo span { color: #f97316; }
-    .nav-cta { background: #f97316; color: #000; padding: 10px 20px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 14px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reks AI — Your Business, On Autopilot</title>
+<style>
+  /* ============================================================
+     RESET & BASE
+  ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* HERO */
-    .hero { text-align: center; padding: 100px 20px 80px; max-width: 800px; margin: 0 auto; }
-    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 20px; }
-    .hero h1 span { color: #f97316; }
-    .hero p { font-size: 1.15rem; color: #94a3b8; max-width: 560px; margin: 0 auto 36px; line-height: 1.6; }
-    .hero-cta { display: inline-block; background: #f97316; color: #000; padding: 16px 36px; border-radius: 10px; font-weight: 800; font-size: 1rem; text-decoration: none; }
-    .hero-sub { margin-top: 12px; color: #475569; font-size: 0.85rem; }
+  :root {
+    --black:   #000000;
+    --navy:    #050a14;
+    --navy2:   #07111f;
+    --orange:  #f97316;
+    --orange2: #fb923c;
+    --cyan:    #06b6d4;
+    --cyan2:   #22d3ee;
+    --white:   #f0f6ff;
+    --muted:   #8899aa;
+    --border:  rgba(6,182,212,0.18);
+    --glow-o:  rgba(249,115,22,0.35);
+    --glow-c:  rgba(6,182,212,0.35);
+    --card-bg: rgba(5,10,20,0.85);
+  }
 
-    /* WHAT IT DOES */
-    .features { padding: 80px 20px; max-width: 1000px; margin: 0 auto; }
-    .features h2 { text-align: center; font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; }
-    .features .sub { text-align: center; color: #64748b; margin-bottom: 48px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .card { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 28px; }
-    .card .icon { font-size: 2rem; margin-bottom: 14px; }
-    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-    .card p { color: #64748b; font-size: 0.9rem; line-height: 1.5; }
+  html { scroll-behavior: smooth; }
 
-    /* HOW IT WORKS */
-    .how { padding: 80px 20px; background: #050a14; }
-    .how-inner { max-width: 700px; margin: 0 auto; text-align: center; }
-    .how h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 48px; }
-    .steps { display: flex; flex-direction: column; gap: 28px; text-align: left; }
-    .step { display: flex; gap: 20px; align-items: flex-start; }
-    .step-num { background: #f97316; color: #000; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; }
-    .step-content h3 { font-weight: 700; margin-bottom: 4px; }
-    .step-content p { color: #64748b; font-size: 0.9rem; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
-    /* PRICING */
-    .pricing { padding: 80px 20px; max-width: 1000px; margin: 0 auto; }
-    .pricing h2 { text-align: center; font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; }
-    .pricing .sub { text-align: center; color: #64748b; margin-bottom: 48px; }
-    .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-    .plan { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 32px; }
-    .plan.featured { border-color: #f97316; }
-    .plan .badge { background: #f97316; color: #000; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 12px; }
-    .plan h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
-    .plan .price { font-size: 2.2rem; font-weight: 800; color: #f97316; margin-bottom: 4px; }
-    .plan .period { color: #475569; font-size: 0.85rem; margin-bottom: 20px; }
-    .plan ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-    .plan ul li { color: #94a3b8; font-size: 0.9rem; padding-left: 20px; position: relative; }
-    .plan ul li::before { content: '✓'; color: #f97316; position: absolute; left: 0; font-weight: 700; }
-    .plan-cta { display: block; text-align: center; padding: 12px; border-radius: 8px; font-weight: 700; text-decoration: none; background: #f97316; color: #000; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; }
 
-    /* FAQ */
-    .faq { padding: 80px 20px; background: #050a14; }
-    .faq-inner { max-width: 680px; margin: 0 auto; }
-    .faq h2 { text-align: center; font-size: 1.8rem; font-weight: 700; margin-bottom: 40px; }
-    .faq-item { border-bottom: 1px solid #1e293b; padding: 20px 0; }
-    .faq-item h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; }
-    .faq-item p { color: #64748b; font-size: 0.9rem; line-height: 1.6; }
+  /* ============================================================
+     GRID BACKGROUND
+  ============================================================ */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(6,182,212,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6,182,212,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center center;
+  }
 
-    /* FOOTER CTA */
-    .footer-cta { padding: 80px 20px; text-align: center; }
-    .footer-cta h2 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
-    .footer-cta p { color: #64748b; margin-bottom: 32px; }
-    .footer-cta a { background: #f97316; color: #000; padding: 16px 36px; border-radius: 10px; font-weight: 800; text-decoration: none; font-size: 1rem; }
+  /* ============================================================
+     ANIMATIONS
+  ============================================================ */
+  @keyframes pulse-glow-o {
+    0%, 100% { box-shadow: 0 0 6px var(--glow-o), 0 0 20px var(--glow-o); }
+    50%       { box-shadow: 0 0 16px var(--glow-o), 0 0 50px var(--glow-o); }
+  }
+  @keyframes pulse-glow-c {
+    0%, 100% { box-shadow: 0 0 6px var(--glow-c), 0 0 20px var(--glow-c); }
+    50%       { box-shadow: 0 0 16px var(--glow-c), 0 0 50px var(--glow-c); }
+  }
+  @keyframes gradient-shift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes scanline {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-10px); }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes ping {
+    0%   { transform: scale(1); opacity: 1; }
+    75%, 100% { transform: scale(2.5); opacity: 0; }
+  }
+  @keyframes fadein-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes type-cursor {
+    0%, 100% { border-color: var(--cyan); }
+    50%       { border-color: transparent; }
+  }
+  @keyframes border-flow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes data-stream {
+    0%   { opacity: 0; transform: translateY(-20px); }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(20px); }
+  }
 
-    /* FOOTER */
-    footer { border-top: 1px solid #1a1a1a; padding: 24px 40px; text-align: center; color: #334155; font-size: 0.85rem; }
+  /* ============================================================
+     SCANLINE OVERLAY
+  ============================================================ */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -100vh;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(transparent, rgba(6,182,212,0.08), transparent);
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+    z-index: 9999;
+  }
 
-    @media (max-width: 600px) {
-      nav { padding: 16px 20px; }
-      .hero { padding: 60px 20px 50px; }
+  /* ============================================================
+     NAVBAR
+  ============================================================ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 62px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .logo-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--orange), var(--cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #000;
+    animation: pulse-glow-o 3s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .logo-text span:first-child { color: var(--white); }
+  .logo-text span:last-child  { color: var(--orange); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-weight: 500;
+    transition: color 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 22px;
+    background: linear-gradient(135deg, var(--orange), #e55a00);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.88rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: all 0.25s;
+    animation: pulse-glow-o 3s ease-in-out infinite;
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 28px var(--glow-o);
+  }
+  .btn-cyan {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 32px;
+    background: linear-gradient(135deg, var(--cyan), #0284c7);
+    color: #000;
+    font-weight: 800;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.25s;
+    animation: pulse-glow-c 3s ease-in-out infinite;
+    text-decoration: none;
+  }
+  .btn-cyan:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 36px var(--glow-c);
+  }
+
+  /* ============================================================
+     HERO
+  ============================================================ */
+  .hero {
+    padding: 140px 24px 80px;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 600px;
+    background: radial-gradient(ellipse at center, rgba(249,115,22,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse at center, rgba(6,182,212,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    border: 1px solid rgba(6,182,212,0.4);
+    border-radius: 100px;
+    background: rgba(6,182,212,0.07);
+    font-size: 0.78rem;
+    color: var(--cyan);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    animation: fadein-up 0.6s ease both;
+  }
+  .badge-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--cyan);
+    position: relative;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+  .badge-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: ping 1.5s ease-out infinite;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    animation: fadein-up 0.7s ease both 0.1s;
+  }
+  .grad-text {
+    background: linear-gradient(90deg, var(--orange), var(--cyan2), var(--orange));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 4s ease infinite;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 32px;
+    line-height: 1.7;
+    animation: fadein-up 0.7s ease both 0.2s;
+  }
+  .hero-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    animation: fadein-up 0.7s ease both 0.3s;
+  }
+  .hero-link {
+    font-size: 0.9rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .hero-link:hover { color: var(--cyan); }
+  .hero-trust {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadein-up 0.7s ease both 0.4s;
+  }
+  .trust-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 4px 12px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 100px;
+    background: rgba(255,255,255,0.02);
+  }
+  .trust-pill .dot-g {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+  }
+
+  /* ============================================================
+     HERO VISUAL — CSS DASHBOARD MOCKUP
+  ============================================================ */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadein-up 0.8s ease both 0.2s;
+  }
+  .dashboard-frame {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--navy2);
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(6,182,212,0.12), 0 0 120px rgba(249,115,22,0.05);
+    animation: float 6s ease-in-out infinite, pulse-glow-c 4s ease-in-out infinite;
+  }
+  .dash-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(0,0,0,0.4);
+    border-bottom: 1px solid var(--border);
+  }
+  .dot-red   { width: 10px; height: 10px; border-radius: 50%; background: #ef4444; }
+  .dot-yellow{ width: 10px; height: 10px; border-radius: 50%; background: #eab308; }
+  .dot-green { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; }
+  .dash-title-text {
+    flex: 1;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .dash-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* mini stat row */
+  .dash-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .dash-stat {
+    background: rgba(6,182,212,0.06);
+    border: 1px solid rgba(6,182,212,0.15);
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .dash-stat-num {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--cyan2);
+  }
+  .dash-stat-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* chat messages */
+  .dash-chat { display: flex; flex-direction: column; gap: 8px; }
+  .chat-msg {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    animation: data-stream 4s ease-in-out infinite;
+  }
+  .chat-msg:nth-child(2) { animation-delay: 1.3s; }
+  .chat-msg:nth-child(3) { animation-delay: 2.6s; }
+  .chat-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  .av-ai {
+    background: linear-gradient(135deg, var(--orange), var(--cyan));
+    color: #000;
+  }
+  .av-user {
+    background: rgba(255,255,255,0.1);
+    color: var(--muted);
+  }
+  .chat-bubble {
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    max-width: 220px;
+  }
+  .bubble-ai {
+    background: rgba(6,182,212,0.12);
+    border: 1px solid rgba(6,182,212,0.2);
+    color: var(--cyan2);
+  }
+  .bubble-user {
+    background: rgba(249,115,22,0.1);
+    border: 1px solid rgba(249,115,22,0.2);
+    color: var(--orange2);
+  }
+  .msg-right { flex-direction: row-reverse; }
+
+  /* activity bar */
+  .dash-activity {
+    background: rgba(249,115,22,0.05);
+    border: 1px solid rgba(249,115,22,0.15);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .act-header {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .act-bars { display: flex; align-items: flex-end; gap: 4px; height: 32px; }
+  .act-bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    background: linear-gradient(180deg, var(--orange), rgba(249,115,22,0.2));
+    animation: pulse-glow-o 2s ease-in-out infinite;
+  }
+  .act-bar:nth-child(1)  { height: 60%; animation-delay: 0.0s; }
+  .act-bar:nth-child(2)  { height: 80%; animation-delay: 0.1s; }
+  .act-bar:nth-child(3)  { height: 45%; animation-delay: 0.2s; }
+  .act-bar:nth-child(4)  { height: 95%; animation-delay: 0.3s; }
+  .act-bar:nth-child(5)  { height: 70%; animation-delay: 0.4s; }
+  .act-bar:nth-child(6)  { height: 55%; animation-delay: 0.5s; }
+  .act-bar:nth-child(7)  { height: 88%; animation-delay: 0.6s; }
+  .act-bar:nth-child(8)  { height: 40%; animation-delay: 0.7s; }
+  .act-bar:nth-child(9)  { height: 75%; animation-delay: 0.8s; }
+  .act-bar:nth-child(10) { height: 65%; animation-delay: 0.9s; }
+  .act-bar:nth-child(11) { height: 90%; animation-delay: 1.0s; }
+  .act-bar:nth-child(12) { height: 50%; animation-delay: 1.1s; }
+
+  /* ============================================================
+     STATS BAR
+  ============================================================ */
+  .stats-bar {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+  .stat-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 22px 16px;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-size: 1.9rem;
+    font-weight: 900;
+    color: var(--cyan2);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .stat-num.orange { color: var(--orange); }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+    text-align: center;
+  }
+
+  /* ============================================================
+     SECTION COMMON
+  ============================================================ */
+  section { padding: 80px 24px; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--cyan);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .section-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  /* ============================================================
+     FEATURES
+  ============================================================ */
+  .features { background: var(--navy); }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .feat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+  .feat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--orange), var(--cyan));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .feat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(6,182,212,0.4);
+    box-shadow: 0 16px 48px rgba(6,182,212,0.1);
+  }
+  .feat-card:hover::before { opacity: 1; }
+  .feat-icon {
+    width: 48px; height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .feat-icon.o {
+    background: rgba(249,115,22,0.12);
+    border: 1px solid rgba(249,115,22,0.25);
+  }
+  .feat-icon.c {
+    background: rgba(6,182,212,0.12);
+    border: 1px solid rgba(6,182,212,0.25);
+  }
+  .feat-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+  .feat-desc {
+    font-size: 0.87rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .feat-tag {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .tag-o { background: rgba(249,115,22,0.12); color: var(--orange); border: 1px solid rgba(249,115,22,0.2); }
+  .tag-c { background: rgba(6,182,212,0.12); color: var(--cyan); border: 1px solid rgba(6,182,212,0.2); }
+
+  /* ============================================================
+     HOW IT WORKS
+  ============================================================ */
+  .how { background: var(--black); }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    position: relative;
+  }
+  .steps-grid::before {
+    content: '';
+    position: absolute;
+    top: 40px; left: calc(16.66% + 24px); right: calc(16.66% + 24px);
+    height: 1px;
+    background: linear-gradient(90deg, var(--orange), var(--cyan));
+    opacity: 0.4;
+  }
+  .step-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+  .step-num {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .step-num.n1 {
+    background: linear-gradient(135deg, var(--orange), #c2410c);
+    color: #fff;
+    animation: pulse-glow-o 3s ease-in-out infinite;
+  }
+  .step-num.n2 {
+    background: linear-gradient(135deg, var(--cyan), #0e7490);
+    color: #000;
+    animation: pulse-glow-c 3s ease-in-out infinite;
+  }
+  .step-num.n3 {
+    background: linear-gradient(135deg, var(--orange), var(--cyan));
+    color: #000;
+    animation: pulse-glow-o 3s ease-in-out infinite 1s;
+  }
+  .step-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .step-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ============================================================
+     PRICING
+  ============================================================ */
+  .pricing { background: var(--navy); position: relative; overflow: hidden; }
+  .pricing::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(ellipse, rgba(249,115,22,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+  .price-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .price-card:hover { transform: translateY(-4px); }
+  .price-card.featured {
+    border-color: var(--orange);
+    box-shadow: 0 0 40px rgba(249,115,22,0.18), 0 0 80px rgba(249,115,22,0.06);
+    animation: pulse-glow-o 4s ease-in-out infinite;
+  }
+  .price-card.featured::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--orange), var(--cyan));
+  }
+  .price-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    background: linear-gradient(135deg, var(--orange), #c2410c);
+    border-radius: 100px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+  .price-plan {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .price-amount {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+  .price-dollar { font-size: 1.4rem; font-weight: 700; color: var(--white); }
+  .price-number { font-size: 3.2rem; font-weight: 900; color: var(--white); line-height: 1; letter-spacing: -2px; }
+  .price-period { font-size: 0.88rem; color: var(--muted); margin-left: 4px; }
+  .price-tagline {
+    font-size: 0.84rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .price-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.87rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .check {
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    margin-top: 1px;
+  }
+  .check-o { background: rgba(249,115,22,0.15); color: var(--orange); border: 1px solid rgba(249,115,22,0.3); }
+  .check-c { background: rgba(6,182,212,0.15); color: var(--cyan); border: 1px solid rgba(6,182,212,0.3); }
+  .check-x { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.08); }
+  .price-cta {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.25s;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .cta-outline {
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: transparent;
+  }
+  .cta-outline:hover { border-color: var(--cyan); color: var(--cyan); }
+  .cta-solid {
+    background: linear-gradient(135deg, var(--orange), #c2410c);
+    color: #fff;
+    border: none;
+  }
+  .cta-solid:hover { box-shadow: 0 0 28px var(--glow-o); transform: translateY(-1px); }
+  .cta-cyan-outline {
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    background: rgba(6,182,212,0.05);
+  }
+  .cta-cyan-outline:hover { background: rgba(6,182,212,0.12); box-shadow: 0 0 20px var(--glow-c); }
+
+  /* ============================================================
+     FAQ
+  ============================================================ */
+  .faq { background: var(--black); }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .faq-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    transition: border-color 0.25s;
+  }
+  .faq-item:hover { border-color: rgba(249,115,22,0.35); }
+  .faq-q {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .faq-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(249,115,22,0.15);
+    border: 1px solid rgba(249,115,22,0.3);
+    color: var(--orange);
+    font-size: 0.68rem;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .faq-a {
+    font-size: 0.87rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-left: 32px;
+  }
+
+  /* ============================================================
+     FOOTER CTA
+  ============================================================ */
+  .footer-cta {
+    background: var(--navy);
+    padding: 80px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .footer-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(6,182,212,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6,182,212,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .footer-cta-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-cta h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .footer-cta p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 32px;
+  }
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 48px 24px 32px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 36px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-brand p {
+    font-size: 0.87rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 14px;
+    max-width: 280px;
+  }
+  .footer-col h4 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .footer-col a {
+    font-size: 0.87rem;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--cyan); }
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-bottom p {
+    font-size: 0.8rem;
+    color: #334155;
+  }
+  .footer-bottom span { color: var(--orange); }
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* ============================================================
+     TECH TICKER BAND
+  ============================================================ */
+  .ticker-band {
+    background: rgba(6,182,212,0.04);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker-inner {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 25s linear infinite;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 28px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .ticker-sep { color: var(--cyan); font-size: 1rem; }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 1024px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
     }
-  </style>
+    .hero-visual { order: -1; }
+    .dashboard-frame { max-width: 100%; }
+    .stats-inner { flex-wrap: wrap; }
+    .stat-item { flex: 0 0 50%; border-bottom: 1px solid var(--border); }
+    .stat-item:nth-child(even) { border-right: none; }
+    .features-grid { grid-template-columns: 1fr; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .steps-grid::before { display: none; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .faq-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    section { padding: 60px 16px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 110px 16px 60px; }
+    .hero h1 { font-size: 2.2rem; }
+  }
+
+  /* ============================================================
+     SCROLLBAR
+  ============================================================ */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(6,182,212,0.6); }
+</style>
 </head>
-<body>
+<body class="grid-bg">
 
-  <nav>
-    <div class="logo"><span>Reks</span> AI</div>
-    <a href="mailto:alfredceo.ai@gmail.com" class="nav-cta">Get Started</a>
-  </nav>
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">R</div>
+      <div class="logo-text">
+        <span>Reks</span><span>AI</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="mailto:alfredceo.ai@gmail.com" class="btn-primary">Get Started &#8594;</a>
+  </div>
+</nav>
 
-  <section class="hero">
-    <h1>Your Business,<br><span>On Autopilot.</span></h1>
-    <p>Reks AI builds a personal AI assistant for your business — connected to your WhatsApp or Telegram. It handles customer messages, logs your leads, writes your content, and keeps you organized. All from your phone.</p>
-    <a href="mailto:alfredceo.ai@gmail.com?subject=I want Reks AI" class="hero-cta">Get Your AI Assistant →</a>
-    <p class="hero-sub">Setup in 24–48 hours. No tech skills needed.</p>
-  </section>
-
-  <section class="features">
-    <h2>What Your Assistant Does</h2>
-    <p class="sub">Everything runs through WhatsApp or Telegram — apps you already use.</p>
-    <div class="grid">
-      <div class="card">
-        <div class="icon">🤖</div>
-        <h3>Answers Customers 24/7</h3>
-        <p>Never miss a message. Your assistant responds instantly to common questions — even when you're on the job.</p>
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AI-Powered · Always On · Built for Business
       </div>
-      <div class="card">
-        <div class="icon">📋</div>
-        <h3>Logs Your Leads</h3>
-        <p>Text "add lead: name, phone, service" and it's saved. No apps, no spreadsheets.</p>
+      <h1>Your Business,<br><span class="grad-text">On Autopilot.</span></h1>
+      <p class="hero-sub">
+        Reks AI plugs into your business like a full-time employee — answering customers, logging leads, writing content, and sending you daily briefings. No tech skills needed.
+      </p>
+      <div class="hero-cta-row">
+        <a href="mailto:alfredceo.ai@gmail.com" class="btn-cyan">Start Free Consult</a>
+        <a href="#how" class="hero-link">See how it works &#8594;</a>
       </div>
-      <div class="card">
-        <div class="icon">📣</div>
-        <h3>Writes Your Content</h3>
-        <p>Ask for a social media post, an email, or a reply — get it in seconds.</p>
-      </div>
-      <div class="card">
-        <div class="icon">📬</div>
-        <h3>Daily Morning Briefing</h3>
-        <p>Every morning you get a summary of leads, emails, and reminders. Stay on top without the chaos.</p>
+      <div class="hero-trust">
+        <div class="trust-pill"><span class="dot-g"></span> 50+ Businesses Active</div>
+        <div class="trust-pill"><span class="dot-g"></span> 48-hr Setup</div>
+        <div class="trust-pill"><span class="dot-g"></span> No Contract</div>
       </div>
     </div>
-  </section>
 
-  <section class="how">
-    <div class="how-inner">
-      <h2>How It Works</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <h3>Choose your plan</h3>
-            <p>Pick the plan that fits your business size and needs.</p>
+    <!-- CSS Dashboard Mockup -->
+    <div class="hero-visual">
+      <div class="dashboard-frame">
+        <div class="dash-titlebar">
+          <div class="dot-red"></div>
+          <div class="dot-yellow"></div>
+          <div class="dot-green"></div>
+          <div class="dash-title-text">reksai — command center</div>
+        </div>
+        <div class="dash-body">
+          <div class="dash-stats-row">
+            <div class="dash-stat">
+              <div class="dash-stat-num">247</div>
+              <div class="dash-stat-label">Messages</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-num" style="color:var(--orange);">18</div>
+              <div class="dash-stat-label">New Leads</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-num">100%</div>
+              <div class="dash-stat-label">Uptime</div>
+            </div>
+          </div>
+          <div class="dash-chat">
+            <div class="chat-msg">
+              <div class="chat-avatar av-user">JD</div>
+              <div class="chat-bubble bubble-user">What are your hours?</div>
+            </div>
+            <div class="chat-msg">
+              <div class="chat-avatar av-ai">AI</div>
+              <div class="chat-bubble bubble-ai">We're available 24/7! Want to book a free estimate?</div>
+            </div>
+            <div class="chat-msg msg-right">
+              <div class="chat-avatar av-user">MR</div>
+              <div class="chat-bubble bubble-user">Yes, tomorrow 2pm works!</div>
+            </div>
+          </div>
+          <div class="dash-activity">
+            <div class="act-header">
+              <span style="color:var(--orange);">●</span> Live Activity
+            </div>
+            <div class="act-bars">
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+              <div class="act-bar"></div>
+            </div>
           </div>
         </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <h3>We set everything up</h3>
-            <p>Send us your business info. We configure your assistant in 24–48 hours. You do nothing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TICKER BAND
+============================================================ -->
+<div class="ticker-band">
+  <div class="ticker-inner">
+    <span class="ticker-item"><span class="ticker-sep">◈</span> WhatsApp AI</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Lead Capture</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> 24/7 Responses</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Content Writing</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Daily Briefings</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Instagram DMs</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> SMS Automation</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Telegram Bots</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> CRM Sync</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Setup in 48hrs</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item"><span class="ticker-sep">◈</span> WhatsApp AI</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Lead Capture</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> 24/7 Responses</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Content Writing</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Daily Briefings</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Instagram DMs</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> SMS Automation</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Telegram Bots</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> CRM Sync</span>
+    <span class="ticker-item"><span class="ticker-sep">◈</span> Setup in 48hrs</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     STATS BAR
+============================================================ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">50<span style="color:var(--orange);">+</span></div>
+      <div class="stat-label">Businesses Served</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num orange">24/7</div>
+      <div class="stat-label">Always Active</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">48<span style="font-size:1.2rem;font-weight:700;color:var(--muted);">hrs</span></div>
+      <div class="stat-label">Setup Time</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num orange">3</div>
+      <div class="stat-label">Channels Supported</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     FEATURES
+============================================================ -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <div class="section-label">What Reks AI Does</div>
+    <h2 class="section-title">Four tools. <span class="grad-text">One AI system.</span></h2>
+    <p class="section-sub">Replace the repetitive work that drains your time. Reks AI handles it around the clock so you can focus on growing your business.</p>
+    <div class="features-grid">
+
+      <div class="feat-card">
+        <div class="feat-icon c">💬</div>
+        <div class="feat-title">Answers Customers 24/7</div>
+        <div class="feat-desc">Your AI responds to FAQs, pricing questions, and booking requests instantly — on WhatsApp, Instagram, SMS, or your website. No missed leads, no late-night panic.</div>
+        <span class="feat-tag tag-c">Always On</span>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon o">📋</div>
+        <div class="feat-title">Logs Your Leads</div>
+        <div class="feat-desc">Every inquiry gets captured, categorized, and stored. Name, phone, service needed, zip code — all organized and sent to your CRM or a clean spreadsheet automatically.</div>
+        <span class="feat-tag tag-o">Auto-CRM</span>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon c">✍️</div>
+        <div class="feat-title">Writes Your Content</div>
+        <div class="feat-desc">Need a promo post? A follow-up message? A service description? Reks AI drafts it in your brand voice and drops it to your phone — ready to post in seconds.</div>
+        <span class="feat-tag tag-c">Content AI</span>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon o">📊</div>
+        <div class="feat-title">Daily Briefings</div>
+        <div class="feat-desc">Every morning, get a concise summary of overnight messages, new leads, and pending follow-ups delivered straight to your phone. Start each day ahead of the curve.</div>
+        <span class="feat-tag tag-o">Daily Intel</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW IT WORKS
+============================================================ -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <div class="section-label">The Process</div>
+    <h2 class="section-title">Live in <span class="grad-text">48 hours.</span></h2>
+    <p class="section-sub">Three steps from "interested" to fully deployed. No tech team needed — we handle everything.</p>
+    <div class="steps-grid">
+
+      <div class="step-card">
+        <div class="step-num n1">01</div>
+        <div class="step-title">Book a Free Consult</div>
+        <div class="step-desc">We jump on a 30-min call to understand your business, your channels, and your pain points. Zero pressure. You'll leave with a clear plan even if you don't sign up.</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num n2">02</div>
+        <div class="step-title">We Build Your AI</div>
+        <div class="step-desc">Our team trains the AI on your business — your FAQs, tone, services, and pricing. We connect it to your channels and test every scenario before handing it over.</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num n3">03</div>
+        <div class="step-title">Go Live &amp; Scale</div>
+        <div class="step-desc">You flip the switch. The AI goes live, starts handling customers, logging leads, and briefing you daily. We monitor and optimize every week.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING
+============================================================ -->
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Simple. <span class="grad-text">Transparent. No BS.</span></h2>
+    <p class="section-sub">All plans include setup, training, and ongoing support. Cancel anytime — no long-term contracts.</p>
+    <div class="pricing-grid">
+
+      <!-- STARTER -->
+      <div class="price-card">
+        <div class="price-plan">Starter</div>
+        <div class="price-amount">
+          <span class="price-dollar">$</span>
+          <span class="price-number">296</span>
+          <span class="price-period">/mo</span>
+        </div>
+        <div class="price-tagline">Best for solo operators and side hustles.</div>
+        <ul class="price-features">
+          <li><span class="check check-c">✓</span> AI on 1 channel (WhatsApp, SMS, or IG)</li>
+          <li><span class="check check-c">✓</span> 24/7 customer Q&amp;A responses</li>
+          <li><span class="check check-c">✓</span> Lead capture + weekly report</li>
+          <li><span class="check check-c">✓</span> 5 content pieces per month</li>
+          <li><span class="check check-x">–</span> Daily briefings</li>
+          <li><span class="check check-x">–</span> Multi-channel sync</li>
+          <li><span class="check check-x">–</span> CRM integration</li>
+        </ul>
+        <a href="mailto:alfredceo.ai@gmail.com?subject=Starter Plan Inquiry" class="price-cta cta-outline">Get Started</a>
+      </div>
+
+      <!-- STANDARD (FEATURED) -->
+      <div class="price-card featured">
+        <div class="price-badge">&#9733; Most Popular</div>
+        <div class="price-plan">Standard</div>
+        <div class="price-amount">
+          <span class="price-dollar">$</span>
+          <span class="price-number" style="color:var(--orange);">494</span>
+          <span class="price-period">/mo</span>
+        </div>
+        <div class="price-tagline">The full package for growing small businesses.</div>
+        <ul class="price-features">
+          <li><span class="check check-o">✓</span> AI on up to 3 channels</li>
+          <li><span class="check check-o">✓</span> 24/7 customer Q&amp;A responses</li>
+          <li><span class="check check-o">✓</span> Lead capture + daily report</li>
+          <li><span class="check check-o">✓</span> 15 content pieces per month</li>
+          <li><span class="check check-o">✓</span> Daily briefings delivered to phone</li>
+          <li><span class="check check-o">✓</span> Multi-channel sync</li>
+          <li><span class="check check-x">–</span> CRM integration</li>
+        </ul>
+        <a href="mailto:alfredceo.ai@gmail.com?subject=Standard Plan Inquiry" class="price-cta cta-solid">Get Started &#8594;</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="price-card">
+        <div class="price-plan">Pro</div>
+        <div class="price-amount">
+          <span class="price-dollar">$</span>
+          <span class="price-number">796</span>
+          <span class="price-period">/mo</span>
+        </div>
+        <div class="price-tagline">Full automation suite for high-volume businesses.</div>
+        <ul class="price-features">
+          <li><span class="check check-c">✓</span> AI on unlimited channels</li>
+          <li><span class="check check-c">✓</span> 24/7 customer Q&amp;A responses</li>
+          <li><span class="check check-c">✓</span> Lead capture + real-time alerts</li>
+          <li><span class="check check-c">✓</span> 30 content pieces per month</li>
+          <li><span class="check check-c">✓</span> Daily briefings + custom insights</li>
+          <li><span class="check check-c">✓</span> Multi-channel sync + priority queue</li>
+          <li><span class="check check-c">✓</span> Full CRM integration + API access</li>
+        </ul>
+        <a href="mailto:alfredceo.ai@gmail.com?subject=Pro Plan Inquiry" class="price-cta cta-cyan-outline">Get Started</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Questions <span class="grad-text">answered.</span></h2>
+    <p class="section-sub">Still on the fence? Here are the most common things people ask before they sign up.</p>
+    <div class="faq-grid">
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-num">1</span>
+          Do I need any technical skills to set this up?
+        </div>
+        <div class="faq-a">Zero. We handle 100% of the technical side — setup, training, and integration. You just tell us about your business and we build it. Most clients are live within 48 hours without touching a single line of code.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-num">2</span>
+          What channels does the AI work on?
+        </div>
+        <div class="faq-a">Currently WhatsApp, Instagram DMs, SMS (via Twilio), and Telegram. Website chat widget is also available on the Standard and Pro plans. We're adding more channels monthly.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-num">3</span>
+          What happens when the AI doesn't know the answer?
+        </div>
+        <div class="faq-a">It gracefully tells the customer it'll get them connected with a human, logs the conversation, and alerts you immediately. You never leave a customer hanging — and we continuously improve the AI's knowledge base.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-num">4</span>
+          Is there a contract or long-term commitment?
+        </div>
+        <div class="faq-a">No contracts. All plans are month-to-month. Cancel anytime with 30 days notice. We'd rather earn your business every month than lock you in. Most clients stay because the ROI is obvious within the first 30 days.</div>
+      </div>
+
+      <div class="faq-item" style="grid-column: 1 / -1;">
+        <div class="faq-q">
+          <span class="faq-num">5</span>
+          How does billing work and what's included in setup?
+        </div>
+        <div class="faq-a">Monthly billing via credit card or PayPal. Setup is included in your first month — no extra fees. That includes AI training, channel connections, custom scripts, and a 30-min onboarding call. After that, your monthly fee covers everything: hosting, maintenance, updates, and support.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER CTA
+============================================================ -->
+<section class="footer-cta">
+  <div class="footer-cta-inner">
+    <div class="section-label" style="justify-content:center;">Ready to Deploy</div>
+    <h2>Stop losing leads.<br><span class="grad-text">Start automating.</span></h2>
+    <p>One conversation. 48 hours. Your business running smarter on autopilot.</p>
+    <div class="cta-row">
+      <a href="mailto:alfredceo.ai@gmail.com" class="btn-primary" style="padding:14px 32px;font-size:1rem;">Book Free Consult &#8594;</a>
+      <a href="mailto:alfredceo.ai@gmail.com" class="btn-cyan" style="background:transparent;border:1px solid var(--cyan);color:var(--cyan);">Email Us Directly</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="margin-bottom:0;">
+          <div class="logo-icon">R</div>
+          <div class="logo-text">
+            <span>Reks</span><span>AI</span>
           </div>
         </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <h3>Just text it</h3>
-            <p>Your assistant is ready on WhatsApp or Telegram. Text it like you'd text a team member.</p>
-          </div>
-        </div>
+        <p>AI-powered automation for small businesses. We handle the repetitive work so you can focus on what matters — growing your business.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Channels</h4>
+        <ul>
+          <li><a href="mailto:alfredceo.ai@gmail.com">WhatsApp</a></li>
+          <li><a href="mailto:alfredceo.ai@gmail.com">Instagram DM</a></li>
+          <li><a href="mailto:alfredceo.ai@gmail.com">SMS / Twilio</a></li>
+          <li><a href="mailto:alfredceo.ai@gmail.com">Telegram</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:alfredceo.ai@gmail.com">alfredceo.ai@gmail.com</a></li>
+          <li><a href="mailto:alfredceo.ai@gmail.com">Book a Call</a></li>
+          <li><a href="mailto:alfredceo.ai@gmail.com">Support</a></li>
+        </ul>
       </div>
     </div>
-  </section>
-
-  <section class="pricing">
-    <h2>Simple Pricing</h2>
-    <p class="sub">All plans include a 7-day free trial. Cancel anytime.</p>
-    <div class="plans">
-      <div class="plan">
-        <h3>Starter</h3>
-        <div class="price">$296<span style="font-size:1rem;color:#475569">/mo</span></div>
-        <div class="period">Perfect for solo operators</div>
-        <ul>
-          <li>AI assistant on WhatsApp or Telegram</li>
-          <li>Customer Q&A automation</li>
-          <li>Lead logging via text</li>
-          <li>Daily morning briefing</li>
-          <li>Email monitoring + summaries</li>
-        </ul>
-        <a href="mailto:alfredceo.ai@gmail.com?subject=Starter Plan" class="plan-cta">Get Started</a>
-      </div>
-      <div class="plan featured">
-        <div class="badge">Most Popular</div>
-        <h3>Standard</h3>
-        <div class="price">$494<span style="font-size:1rem;color:#475569">/mo</span></div>
-        <div class="period">For growing businesses</div>
-        <ul>
-          <li>Everything in Starter</li>
-          <li>Social media post drafts</li>
-          <li>2 channels (WhatsApp + Telegram)</li>
-          <li>Weekly performance summary</li>
-        </ul>
-        <a href="mailto:alfredceo.ai@gmail.com?subject=Standard Plan" class="plan-cta">Get Started</a>
-      </div>
-      <div class="plan">
-        <h3>Pro</h3>
-        <div class="price">$796<span style="font-size:1rem;color:#475569">/mo</span></div>
-        <div class="period">For serious operators</div>
-        <ul>
-          <li>Everything in Standard</li>
-          <li>Priority 24-hr setup</li>
-          <li>Custom automations</li>
-          <li>Monthly strategy session</li>
-          <li>Dedicated support</li>
-        </ul>
-        <a href="mailto:alfredceo.ai@gmail.com?subject=Pro Plan" class="plan-cta">Get Started</a>
+    <div class="footer-bottom">
+      <p>© 2025 Reks AI. Built with <span>♥</span> for small businesses.</p>
+      <div class="footer-status">
+        <span class="badge-dot" style="position:relative;width:7px;height:7px;border-radius:50%;background:var(--cyan);display:inline-block;animation:blink 2s ease-in-out infinite;"></span>
+        All systems operational
       </div>
     </div>
-  </section>
-
-  <section class="faq">
-    <div class="faq-inner">
-      <h2>Common Questions</h2>
-      <div class="faq-item">
-        <h3>Is my data safe?</h3>
-        <p>Your assistant runs on a private server. We use official APIs for WhatsApp and Telegram. Your business data is never shared with third parties.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Do I need to install anything?</h3>
-        <p>No. Everything works through WhatsApp or Telegram — apps you already use on your phone.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How long does setup take?</h3>
-        <p>24–48 hours after we receive your business information. We handle everything.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Can I cancel anytime?</h3>
-        <p>Yes. No contracts, no cancellation fees. 30 days notice to cancel.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What kind of businesses use Reks AI?</h3>
-        <p>Contractors, real estate agents, insurance agents, salon owners, auto repair shops — any small business that communicates with customers by phone or text.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="footer-cta">
-    <h2>Ready to put your business on autopilot?</h2>
-    <p>DM us or send an email — we'll get back to you same day.</p>
-    <a href="mailto:alfredceo.ai@gmail.com?subject=I want Reks AI">Get Your AI Assistant →</a>
-  </section>
-
-  <footer>
-    <p>© 2026 Reks AI · Based in Los Angeles, CA · alfredceo.ai@gmail.com</p>
-  </footer>
+  </div>
+</footer>
 
 </body>
 </html>
